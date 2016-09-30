@@ -34,7 +34,7 @@ public class UserService {
 	private List<User> fallbackSearchAll() {
 		List<User> ls = new ArrayList<User>();
 		User user = new User();
-		user.setUsername("TestHystrixCommand");
+		user.setUsername("TestHystrixCommand from simple ui");
 		ls.add(user);
 		return ls;
 	}

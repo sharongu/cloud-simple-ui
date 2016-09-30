@@ -14,6 +14,8 @@ server:
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
+    metadataMap:
+      turbineCluster: pipa
     
   client:
     healthcheck:
