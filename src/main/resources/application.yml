@@ -1,0 +1,22 @@
+#service name
+#spring.application.name=cloud-simple-ui
+#ribbon config
+#cloud-simple-service.ribbon.ConnectTimeout=5000
+#cloud-simple-service.ribbon.ReadTimeout=10000
+
+spring:
+  application:
+    name: simple-ui
+
+server:
+  port: 8082
+  
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/
