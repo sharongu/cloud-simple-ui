@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cloud.conf.GlobalConf;
 import cloud.conf.UserServiceFeignConfiguration;
 import cloud.simple.model.User;
 
 // 这边的name就是要调用的服务在eureka server中注册的serviceId
-@FeignClient(name = "user-service", configuration = UserServiceFeignConfiguration.class, fallback = FeignUserServiceFallback.class)
+@FeignClient(name = GlobalConf.USER_SERVICE_NAME, configuration = UserServiceFeignConfiguration.class, fallback = FeignUserServiceFallback.class)
 // @RibbonClient("hello") FeignClient自动会使用RibbonClient，所以不用再次声明
 public interface IFeignUserService {
 

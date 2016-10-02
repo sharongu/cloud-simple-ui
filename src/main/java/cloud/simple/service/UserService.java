@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import cloud.conf.GlobalConf;
 import cloud.simple.model.User;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -25,8 +26,6 @@ public class UserService {
 	@Autowired
 	RestTemplate restTemplate;
 
-	final static String SERVICE_NAME = "user-service";
-	
 	@LoadBalanced
 	@Bean
 	RestTemplate restTemplate() {
@@ -36,7 +35,7 @@ public class UserService {
 	@SuppressWarnings({ "unchecked" })
 	@HystrixCommand(fallbackMethod = "fallbackSearchAll")
 	public List<User> readUserInfo() {
-		return restTemplate.getForObject("http://" + SERVICE_NAME + "/user/notFeignUser", List.class);
+		return restTemplate.getForObject("http://" + GlobalConf.USER_SERVICE_NAME + "/user/notFeignUser", List.class);
 	}
 
 	@SuppressWarnings("unused")

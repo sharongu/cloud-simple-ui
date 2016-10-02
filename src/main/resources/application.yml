@@ -1,7 +1,3 @@
-#ribbon config
-#cloud-simple-service.ribbon.ConnectTimeout=5000
-#cloud-simple-service.ribbon.ReadTimeout=10000
-
 spring:
   application:
     name: simple-ui
@@ -20,3 +16,7 @@ eureka:
       enabled: true
     serviceUrl:
       defaultZone: http://peer1:8761/eureka/
+      
+#ribbon config
+user-service.ribbon.ConnectTimeout: 5000
+user-service.ribbon.ReadTimeout: 10000
