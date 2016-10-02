@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,22 +21,29 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Service
 public class UserService {
+
 	@Autowired
 	RestTemplate restTemplate;
 
-	final String SERVICE_NAME = "user-service";
+	final static String SERVICE_NAME = "user-service";
+	
+	@LoadBalanced
+	@Bean
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 
 	@SuppressWarnings({ "unchecked" })
 	@HystrixCommand(fallbackMethod = "fallbackSearchAll")
 	public List<User> readUserInfo() {
-		return restTemplate.getForObject("http://" + SERVICE_NAME + "/user", List.class);
+		return restTemplate.getForObject("http://" + SERVICE_NAME + "/user/notFeignUser", List.class);
 	}
 
 	@SuppressWarnings("unused")
 	private List<User> fallbackSearchAll() {
 		List<User> ls = new ArrayList<User>();
 		User user = new User();
-		user.setUsername("TestHystrixCommand from simple ui");
+		user.setUsername("[not feign]TestHystrixCommand from simple ui");
 		ls.add(user);
 		return ls;
 	}
