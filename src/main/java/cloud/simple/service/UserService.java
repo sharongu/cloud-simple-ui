@@ -35,7 +35,8 @@ public class UserService {
 	@SuppressWarnings({ "unchecked" })
 	@HystrixCommand(fallbackMethod = "fallbackSearchAll")
 	public List<User> readUserInfo() {
-		return restTemplate.getForObject("http://" + GlobalConf.USER_SERVICE_NAME + "/user/notFeignUser", List.class);
+		// 可以直接调用最终的serviceId，也可以通过zuulproxy来进行路由
+		return restTemplate.getForObject("http://" + GlobalConf.ZUUL_PROXY + "/api/user/notFeignUser", List.class);
 	}
 
 	@SuppressWarnings("unused")

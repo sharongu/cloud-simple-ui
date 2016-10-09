@@ -11,12 +11,12 @@ import cloud.conf.GlobalConf;
 import cloud.conf.UserServiceFeignConfiguration;
 import cloud.simple.model.User;
 
-// 这边的name就是要调用的服务在eureka server中注册的serviceId
-@FeignClient(name = GlobalConf.USER_SERVICE_NAME, configuration = UserServiceFeignConfiguration.class, fallback = FeignUserServiceFallback.class)
+// 这边的name就是要调用的服务在eureka server中注册的serviceId，当使用zuulproxy时可以直接写成zuulproxy的serviceid
+@FeignClient(name = GlobalConf.ZUUL_PROXY, configuration = UserServiceFeignConfiguration.class, fallback = FeignUserServiceFallback.class)
 // @RibbonClient("hello") FeignClient自动会使用RibbonClient，所以不用再次声明
 public interface IFeignUserService {
 
-	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/user/{username}", method = RequestMethod.GET)
 	List<User> users(@PathVariable("username") String userName);
 
 }

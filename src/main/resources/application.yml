@@ -1,6 +1,8 @@
 spring:
   application:
-    name: simple-ui
+    name: @project.name@
+
+info.version: @project.version@
 
 server:
   port: 8082

@@ -25,7 +25,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(value = "/users")
+	@RequestMapping(value = "/ui/users")
 	public ResponseEntity<List<User>> readUserInfo() {
 		List<User> users = userService.readUserInfo();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
@@ -35,7 +35,7 @@ public class UserController {
 	@Autowired
 	IFeignUserService client;
 
-	@RequestMapping(value = "/usersByFeign")
+	@RequestMapping(value = "/ui/usersByFeign")
 	public ResponseEntity<List<User>> readUserInfoByFeign() {
 		List<User> users = client.users("feignUser");
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
