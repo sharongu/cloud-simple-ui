@@ -10,21 +10,16 @@
 
 	<packaging>jar</packaging>
 	<parent>
-	    <groupId>org.springframework.boot</groupId>
-	    <artifactId>spring-boot-starter-parent</artifactId>
-	    <version>1.4.0.RELEASE</version>
-	    <relativePath/>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.0.RELEASE</version>
+		<relativePath />
 	</parent>
-	
+
 	<repositories>
-		<!-- <repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>public</id>
-			<name>Public Repositories</name>
-			<url>http://10.0.12.207:8081/nexus/content/groups/public/</url>
-		</repository> -->
+		<!-- <repository> <snapshots> <enabled>true</enabled> </snapshots> <id>public</id> 
+			<name>Public Repositories</name> <url>http://10.0.12.207:8081/nexus/content/groups/public/</url> 
+			</repository> -->
 		<repository>
 			<id>spring-snapshots</id>
 			<name>Spring Snapshots</name>
@@ -50,7 +45,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>spring-snapshots</id>
@@ -69,28 +64,26 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 	<dependencyManagement>
-	    <dependencies>
-	        <dependency>
-	            <groupId>org.springframework.cloud</groupId>
-	            <artifactId>spring-cloud-dependencies</artifactId>
-	            <version>Camden.RELEASE</version>
-	            <type>pom</type>
-	            <scope>import</scope>
-	        </dependency>
-	    </dependencies>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Camden.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
 	</dependencyManagement>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-config</artifactId> 
+			</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -110,6 +103,19 @@
 		<dependency>
 			<groupId>org.jolokia</groupId>
 			<artifactId>jolokia-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>4.7</version>
 		</dependency>
 	</dependencies>
 	<build>

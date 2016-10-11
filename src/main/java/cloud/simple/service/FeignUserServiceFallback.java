@@ -22,4 +22,9 @@ public class FeignUserServiceFallback implements IFeignUserService {
 		return ls;
 	}
 
+	@Override
+	public String session() {
+		return "unknown<br>";
+	}
+
 }

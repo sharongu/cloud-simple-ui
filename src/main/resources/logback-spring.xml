@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<jmxConfigurator />
+
+	<!-- 将日志通过udp的协议输出到logstash -->
+	<appender name="logstash"
+		class="net.logstash.logback.appender.LogstashSocketAppender">
+		<host>192.168.33.102</host>
+		<port>5000</port>
+	</appender>
+
+	<!-- 默认的日志配置 -->
+	<root level="INFO">
+		<appender-ref ref="logstash" />
+	</root>
+	<!-- additivity="false"表示这个日志內容不会再次向上级传递，最上级为root，默认为true -->
+	<logger name="cloud.simple.web" level="INFO" additivity="true" />
+
+	<!-- 测试环境/开发环境，多个的话用英文逗号隔开，如果要用springProfile的话，文件名必须是logback-spring.xml而不能是logback.xml -->
+	<springProfile name="test,dev">
+		<root level="TRACE">
+			<appender-ref ref="logstash" />
+		</root>
+		<logger name="cloud.simple.web" level="TRACE" additivity="true" />
+	</springProfile>
+	<!-- 生产环境日志级别 -->
+	<springProfile name="production">
+		<root level="INFO">
+			<appender-ref ref="logstash" />
+		</root>
+		<logger name="cloud.simple.web" level="INFO" additivity="true" />
+	</springProfile>
+	<!-- 可以启动服务的时候指定 profile （如不指定使用默认），如指定production的方式为： -->
+	<!-- java -jar myapp.jar -Dspring.profiles.active=production -->
+</configuration>

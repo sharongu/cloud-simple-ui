@@ -1,12 +1,17 @@
 package cloud.conf;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import feign.Feign;
 import feign.Logger;
 import feign.Request;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 
 /*
  * The UserServiceFeignConfiguration has to be @Configuration but take care that it is not in a @ComponentScan 
@@ -29,15 +34,15 @@ public class UserServiceFeignConfiguration {
 	 * 
 	 * 覆盖默认的Feign.Builder以后就没法用FeignClient里面的Hystrix的Fallback类了
 	 */
-	@Bean
-	@Scope("prototype")
-	public Feign.Builder feignBuilder() {
-		return Feign.builder();
-	}
+	// @Bean
+	// @Scope("prototype")
+	// public Feign.Builder feignBuilder() {
+	// return Feign.builder();
+	// }
 
 	@Bean
 	public Logger.Level feignLogger() {
-		return Logger.Level.FULL;
+		return Logger.Level.BASIC;
 	}
 
 	private static final int FIVE_SECONDS = 5000;
@@ -45,6 +50,21 @@ public class UserServiceFeignConfiguration {
 	@Bean
 	public Request.Options options() {
 		return new Request.Options(FIVE_SECONDS, FIVE_SECONDS);
+	}
+
+	@Bean
+	public RequestInterceptor requestSessionInterceptor() {
+		return new RequestInterceptor() {
+
+			@Override
+			public void apply(RequestTemplate template) {
+				HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+				HttpSession session = req.getSession(false);
+				if (session != null) // 在FiegnClient调用微服务时传递sessionid，确保session在各个微服务之间的调用中正确传递
+					template.header("Cookie", "SESSION=" + req.getSession().getId());
+			}
+
+		};
 	}
 
 }

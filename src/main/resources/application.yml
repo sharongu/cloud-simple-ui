@@ -1,6 +1,11 @@
 spring:
   application:
     name: @project.name@
+    
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
 
 info.version: @project.version@
 
@@ -20,5 +25,9 @@ eureka:
       defaultZone: http://peer1:8761/eureka/
       
 #ribbon config
-user-service.ribbon.ConnectTimeout: 5000
-user-service.ribbon.ReadTimeout: 10000
+zuul-gateway.ribbon.ConnectTimeout: 5000
+zuul-gateway.ribbon.ReadTimeout: 10000
+
+# 默认是THREAD，表示hystrix command（包括Fignclient的方法）是在一个独立线程中执行，但是这样一来Feignclient的RequestInterceptor里面就取不到当前的Request对象，
+# 为了在各微服务间传递sessionId，暂时先设置成SEMAPHORE，表示方法在当前线程中执行，可能影响效率，后续再找更优方案
+hystrix.command.default.execution.isolation.strategy: SEMAPHORE

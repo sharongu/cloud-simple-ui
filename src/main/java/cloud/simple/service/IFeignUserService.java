@@ -19,4 +19,6 @@ public interface IFeignUserService {
 	@RequestMapping(value = "/api/user/{username}", method = RequestMethod.GET)
 	List<User> users(@PathVariable("username") String userName);
 
+	@RequestMapping(value = "/api/user/session", method = RequestMethod.GET)
+	String session();
 }
