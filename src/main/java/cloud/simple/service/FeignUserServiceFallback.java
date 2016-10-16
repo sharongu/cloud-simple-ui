@@ -17,7 +17,7 @@ public class FeignUserServiceFallback implements IFeignUserService {
 	public List<User> users(String userName) {
 		List<User> ls = new ArrayList<User>();
 		User u = new User();
-		u.setUsername("[feign]TestHystrixFallback from simple ui");
+		u.setUsername("[feign]TestHystrixFallback [users(String userName)] from simple ui");
 		ls.add(u);
 		return ls;
 	}
@@ -25,6 +25,15 @@ public class FeignUserServiceFallback implements IFeignUserService {
 	@Override
 	public String session() {
 		return "unknown<br>";
+	}
+
+	@Override
+	public List<User> users(String userName, String param, String header, User user) {
+		List<User> ls = new ArrayList<User>();
+		User u = new User();
+		u.setUsername("[feign]TestHystrixFallback [users(String userName, User user)] from simple ui");
+		ls.add(u);
+		return ls;
 	}
 
 }

@@ -7,6 +7,8 @@
 
 package cloud.simple.web;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.util.Enumeration;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cloud.simple.model.User;
@@ -34,7 +37,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(value = "/users")
+	@ApiOperation(value = "users", notes = "notes for users")
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ResponseEntity<List<User>> readUserInfo() {
 		List<User> users = userService.readUserInfo();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
@@ -44,17 +48,29 @@ public class UserController {
 	@Autowired
 	IFeignUserService client;
 
-	@RequestMapping(value = "/usersByFeign")
+	@ApiOperation(value = "readUserInfoByFeign", notes = "notes for readUserInfoByFeign")
+	@RequestMapping(value = "/usersByFeign", method = RequestMethod.GET)
 	public ResponseEntity<List<User>> readUserInfoByFeign() {
 		List<User> users = client.users("feignUser");
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-	@RequestMapping("/session")
+	@ApiOperation(value = "readUserInfoByFeign2", notes = "notes for readUserInfoByFeign2")
+	@RequestMapping(value = "/usersByFeignPost", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> readUserInfoByFeign2() {
+		User u = new User();
+		u.setUsername("xxxxxxxxxxxx");
+		List<User> users = client.users("feignUser", "param", "header", u);
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "testSession", notes = "notes for testSession")
+	@RequestMapping(value = "/session", method = RequestMethod.GET)
 	public String testSession(HttpServletRequest request) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("simple-ui里面的sessionid=" + request.getSession().getId());
-		sb.append("<br>当前值testname=" + request.getSession().getAttribute("testname") + ",result=" + request.getSession().getAttribute("result"));
+		sb.append("<br>当前值testname=" + request.getSession().getAttribute("testname") + ",result="
+				+ request.getSession().getAttribute("result"));
 		request.getSession().setAttribute("testname", "simple-ui");
 		sb.append("，<br>将testname设置为：simple-ui。<br>");
 		sb.append("调用user-service后得到的结果：<br>");
@@ -67,7 +83,8 @@ public class UserController {
 		return sb.toString();
 	}
 
-	@RequestMapping(value = "/log")
+	@ApiOperation(value = "testLog", notes = "notes for testLog")
+	@RequestMapping(value = "/log", method = RequestMethod.GET)
 	public String testLog(HttpServletRequest request) {
 		StringBuffer sb = new StringBuffer();
 		Cookie[] cookies = request.getCookies();
