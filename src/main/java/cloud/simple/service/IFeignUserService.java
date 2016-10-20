@@ -15,7 +15,8 @@ import cloud.conf.UserServiceFeignConfiguration;
 import cloud.simple.model.User;
 
 // 这边的name就是要调用的服务在eureka server中注册的serviceId，当使用zuulproxy时可以直接写成zuulproxy的serviceid
-@FeignClient(name = GlobalConf.ZUUL_PROXY, configuration = UserServiceFeignConfiguration.class, fallback = FeignUserServiceFallback.class)
+//@FeignClient(name = GlobalConf.ZUUL_PROXY, configuration = UserServiceFeignConfiguration.class, fallback = FeignUserServiceFallback.class)
+@FeignClient(name = GlobalConf.ZUUL_PROXY, configuration = UserServiceFeignConfiguration.class)
 // @RibbonClient("hello") FeignClient自动会使用RibbonClient，所以不用再次声明
 public interface IFeignUserService {
 

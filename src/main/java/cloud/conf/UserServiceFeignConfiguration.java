@@ -63,6 +63,7 @@ public class UserServiceFeignConfiguration {
 				HttpSession session = req.getSession(false);
 				if (session != null) // 在FiegnClient调用微服务时传递sessionid，确保session在各个微服务之间的调用中正确传递，实际上后端服务应该尽量不要依赖session
 					template.header("Cookie", "SESSION=" + req.getSession().getId());
+				
 			}
 
 		};

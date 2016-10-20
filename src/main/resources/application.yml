@@ -9,6 +9,9 @@ spring:
 
 info.version: @project.version@
 
+debug: true
+log.level.ROOT: DEBUG
+
 server:
   port: 8082
   
